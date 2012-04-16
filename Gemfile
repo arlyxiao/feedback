@@ -12,6 +12,8 @@ gem 'therubyracer'
 
 gem 'haml'
 
+gem 'galetahub-simple_captcha', :require => 'simple_captcha', :git => 'git://github.com/galetahub/simple-captcha.git'
+
 gem 'uuidtools', :require => 'uuidtools'
 
 gem 'json'

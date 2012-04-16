@@ -1,4 +1,7 @@
 A simple feedback application
 
 bundle install
+
+rails generate simple_captcha
+
 rake db:migrate

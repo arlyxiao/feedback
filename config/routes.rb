@@ -1,9 +1,4 @@
 Feedback::Application.routes.draw do
-  get "problem_reports/index"
-
-  get "problem_reports/create"
-
-  get "problem_reports/reply"
 
   resources :problem_reports do
     collection do
