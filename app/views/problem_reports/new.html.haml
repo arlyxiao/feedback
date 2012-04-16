@@ -9,9 +9,10 @@
   %p
     我提过的意见
     %ul
-      - @reports.each do |report|
-        %li
-          = report.content
-          %p 
-            = report.created_at
+      - unless @reports.blank?
+        - @reports.each do |report|
+          %li
+            = report.content
+            %p 
+              = report.created_at
       

@@ -6,7 +6,7 @@ class ProblemReport < ActiveRecord::Base
   belongs_to :creator, :class_name => 'User', :foreign_key => :sender_id
    
   # --- 校验方法
-  validates :ip, :content, :presence => true
+  validates :content, :presence => true
   
 
   # --- 给其他类扩展的方法
