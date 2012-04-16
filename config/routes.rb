@@ -1,5 +1,5 @@
 Feedback::Application.routes.draw do
-
+  
   resources :problem_reports do
     collection do
 
@@ -10,6 +10,8 @@ Feedback::Application.routes.draw do
     end
   end
   resources :problem_reports
+  
+  match '/simple_captcha(/:action)' => 'simple_captcha', :as => :simple_captcha
  
   # -- 用户登录认证相关 --
   root :to => 'index#index'
@@ -20,3 +22,5 @@ Feedback::Application.routes.draw do
   get  '/signup'        => 'signup#form'
   post '/signup_submit' => 'signup#form_submit'
 end
+
+ 
