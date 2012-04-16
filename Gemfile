@@ -12,6 +12,8 @@ gem 'therubyracer'
 
 gem 'haml'
 
+gem 'uuidtools', :require => 'uuidtools'
+
 gem 'json'
 
 # Gems used only for assets and not required
