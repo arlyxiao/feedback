@@ -19,9 +19,9 @@ class ProblemReportsController < ApplicationController
       @problem_report.save
     else
       @problem_report = ProblemReport.new
-      if @problem_report.valid_with_captcha?
+      if simple_captcha_valid?
         @problem_report.email = params[:email]
-        @problem_report.content= params[:content]
+        @problem_report.content= params[:problem_report][:content]
         @problem_report.ip = request.remote_ip
         @problem_report.save
       end
