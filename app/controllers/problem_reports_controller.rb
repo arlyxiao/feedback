@@ -47,6 +47,16 @@ class ProblemReportsController < ApplicationController
     unless @problem_report.save
       error = @problem_report.errors.first
       flash[:error] = "#{error[0]} #{error[1]}"
+    else
+      attachements = params[:attachements]
+      unless attachements.blank?
+        attachements.each do |attachement_id|
+          problem_report_attachement = ProblemReportAttachement.find(attachement_id)
+          problem_report_attachement.problem_report = @problem_report
+          problem_report_attachement.creator = current_user
+          problem_report_attachement.save
+        end
+      end
     end
     
     redirect_to new_problem_report_path
@@ -62,9 +72,9 @@ class ProblemReportsController < ApplicationController
   end
   
   def upload_attachement
-    #@problem_report_attachement = ProblemReportAttachement.create( params[:problem_report_attachement] )
-    #render :text => @problem_report_attachement.id
-    render :text => 1
+    report = ProblemReportAttachement.create( params[:problem_report_attachement] )
+    render :text => report.id
+    # render :text => 1
   end
 
 end
