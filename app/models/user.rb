@@ -46,4 +46,5 @@ class User < ActiveRecord::Base
   # ----------- 以下是方法扩充
   include OnlineRecord::UserMethods
   include ProblemReport::UserMethods
+  include ProblemType::UserMethods
 end

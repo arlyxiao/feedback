@@ -1,5 +1,7 @@
 Feedback::Application.routes.draw do
   
+  resources :problem_types
+
   resources :problem_reports do
     collection do
       post :reply
