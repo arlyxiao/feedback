@@ -15,7 +15,14 @@
       - unless @reports.blank?
         - @reports.each do |report|
           %li
-            = report.content
+            %p 
+              = report.content
             %p 
               = report.created_at
+          
+          %p
+            - unless report.admin_reply.blank?
+              %p
+                管理员回复
+              = report.admin_reply
       
