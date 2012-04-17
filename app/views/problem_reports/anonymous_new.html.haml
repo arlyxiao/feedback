@@ -9,11 +9,13 @@
   %p 
     %span Email
     %input{:name => "email", :size => "30", :type => "text"}/
-    
+  
+
   %p 
     %span 验证码
     = show_simple_captcha  :label => "请输入验证码"
       
   .field
     %a.form-submit-button{:href=>'javascript:;'} 发送
+
     

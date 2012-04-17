@@ -2,7 +2,7 @@ Feedback::Application.routes.draw do
   
   resources :problem_reports do
     collection do
-
+      post :reply
     end
     
     member do

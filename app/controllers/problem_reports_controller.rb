@@ -1,5 +1,11 @@
 class ProblemReportsController < ApplicationController
   def index
+    if current_user.is_admin
+      @reports = ProblemReport.all
+    else
+      @reports = current_user.problem_reports
+    end
+    
   end
   
   def new
@@ -34,6 +40,12 @@ class ProblemReportsController < ApplicationController
   end
 
   def reply
+    report = ProblemReport.find(params[:report_id])
+    report.admin_reply = params[:admin_reply]
+    report.replied_at = Time.now
+    report.save
+    
+    redirect_to problem_reports_path
   end
 
 end

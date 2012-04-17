@@ -37,6 +37,12 @@ class User < ActiveRecord::Base
     self.hashed_password = self.encrypted_password(self.password)
   end
   
+  # 是否是管理员
+  def is_admin
+    return true if self.id == 1
+    return false
+  end
+  
   # ----------- 以下是方法扩充
   include OnlineRecord::UserMethods
   include ProblemReport::UserMethods
