@@ -60,5 +60,11 @@ class ProblemReportsController < ApplicationController
     
     redirect_to problem_reports_path
   end
+  
+  def upload_attachement
+    #@problem_report_attachement = ProblemReportAttachement.create( params[:problem_report_attachement] )
+    #render :text => @problem_report_attachement.id
+    render :text => 1
+  end
 
 end
