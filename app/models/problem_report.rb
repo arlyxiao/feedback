@@ -1,3 +1,4 @@
+require 'zip/zip'
 class ProblemReport < ActiveRecord::Base
   # 验证码
   apply_simple_captcha :message => "验证码输入有误", :add_to_base => true
@@ -11,6 +12,18 @@ class ProblemReport < ActiveRecord::Base
   
   # --- 校验方法
   validates :content, :presence => true
+  
+  # 生成的附件压缩包
+  def build_attachements_zip(user)
+    zipfile_name = "/web/2012/problem_report_attachements/problem_report#{user.id}_#{self.id}.zip"
+    Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|
+      self.problem_report_attachements.each do |file|
+        unless zipfile.find_entry(file.attachement_file_name)
+          zipfile.add(file.attachement_file_name, file.attachement.path)
+        end
+      end
+    end
+  end
   
 
   # --- 给其他类扩展的方法

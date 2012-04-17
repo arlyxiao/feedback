@@ -48,6 +48,7 @@ class ProblemReportsController < ApplicationController
       error = @problem_report.errors.first
       flash[:error] = "#{error[0]} #{error[1]}"
     else
+      # 关联上传表单
       attachements = params[:attachements]
       unless attachements.blank?
         attachements.each do |attachement_id|
@@ -56,6 +57,9 @@ class ProblemReportsController < ApplicationController
           problem_report_attachement.creator = current_user
           problem_report_attachement.save
         end
+        
+        # 生成 zip 包
+        @problem_report.build_attachements_zip(current_user)
       end
     end
     
