@@ -4,7 +4,8 @@ class ProblemReport < ActiveRecord::Base
   
   # --- 模型关联
   belongs_to :creator, :class_name => 'User', :foreign_key => :creator_id
-   
+  belongs_to :problem_report, :class_name => 'ProblemReport'
+  
   # --- 校验方法
   validates :content, :presence => true
   
