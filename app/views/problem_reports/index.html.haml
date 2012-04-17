@@ -1,13 +1,25 @@
+:javascript
+
+
 - if current_user.is_admin
   = link_to '创建类型', new_problem_type_path
 
 %p
   %a{:href => "/problem_reports/new"} 提交新问题
 
+%p
+  问题类型
+  - @problem_types.each do |type|
+    = link_to type.name, "/problem_reports?type=#{type.id}"
+
 %ul
   - unless @reports.blank?
     - @reports.each do |report|
       %li
+        %p
+          - unless report.problem_type.blank?
+            = link_to report.problem_type.name, "/problem_reports?problem_type=#{report.problem_type_id}"
+        
         - if report.creator.blank?
           %p
             匿名

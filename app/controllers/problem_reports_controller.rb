@@ -1,11 +1,23 @@
 class ProblemReportsController < ApplicationController
   def index
     if current_user.is_admin
-      @reports = ProblemReport.all
+      unless params[:type].blank?
+        @reports = ProblemReport.find_all_by_problem_type_id(params[:type])
+      else
+        @reports = ProblemReport.all
+      end
+      
     else
-      @reports = current_user.problem_reports
+      unless params[:type].blank?
+        @reports = current_user.problem_reports.find_all_by_problem_type_id(params[:type])
+      else
+        @reports = current_user.problem_reports
+      end
+      
     end
     
+    # 问题类型
+    @problem_types = ProblemType.all
   end
   
   def new
