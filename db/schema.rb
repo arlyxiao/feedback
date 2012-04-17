@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120417073834) do
+ActiveRecord::Schema.define(:version => 20120417084752) do
 
   create_table "answer_votes", :force => true do |t|
     t.integer  "user_id"
@@ -128,6 +128,17 @@ ActiveRecord::Schema.define(:version => 20120417073834) do
 
   add_index "online_records", ["key"], :name => "index_online_records_on_key"
   add_index "online_records", ["user_id"], :name => "index_online_records_on_user_id"
+
+  create_table "problem_report_attachements", :force => true do |t|
+    t.integer  "creator_id"
+    t.integer  "report_id"
+    t.string   "attachement_file_name"
+    t.string   "attachement_content_type"
+    t.integer  "attachement_file_size"
+    t.datetime "attachement_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "problem_reports", :force => true do |t|
     t.integer  "creator_id"
