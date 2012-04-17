@@ -10,6 +10,7 @@ class ProblemReportsController < ApplicationController
   
   def new
     @problem_report = ProblemReport.new
+    @problem_types = ProblemType.all
 
     if logged_in?
       @reports = current_user.problem_reports
