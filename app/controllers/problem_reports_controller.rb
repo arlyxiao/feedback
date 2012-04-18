@@ -23,6 +23,7 @@ class ProblemReportsController < ApplicationController
   def new
     @problem_report = ProblemReport.new
     @problem_types = ProblemType.all
+    @problem_fields = ProblemField.all
 
     if logged_in?
       @reports = current_user.problem_reports
@@ -43,6 +44,12 @@ class ProblemReportsController < ApplicationController
       error = @problem_report.errors.first
       flash[:error] = "#{error[0]} #{error[1]}"
     else
+      # 关联动态生成的字段内容
+      @problem_report.problem_field_data.each do |field_data|
+        field_data.content = params[:problem_field_data][field_data.problem_field_id.to_s]
+        field_data.save
+      end
+      
       # 关联上传表单
       attachements = params[:attachements]
       unless attachements.blank?

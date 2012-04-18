@@ -23,6 +23,17 @@
     = select ("problem_report", "problem_type_id", @problem_types.map {|u| [u.name,u.id]})
   %p
     %textarea{:id => "", :name => "problem_report[content]", :style => "width: 380px; height: 100px;"}
+  
+  - unless @problem_fields.blank?
+    %ul
+      - @problem_fields.each do |field|
+        %li
+          = field.name
+          %p
+            %input{:type=>'hidden',:value => field.id, :name=>"problem_report[problem_field_data_attributes][#{field.id}][problem_field_id]"}
+            %input{:type=>'text', :name=>"problem_field_data[#{field.id}]"}
+    
+  
   %p 
     问题附件
     #report-attachements{:style => "display: none;"}
