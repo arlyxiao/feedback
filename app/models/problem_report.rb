@@ -7,8 +7,10 @@ class ProblemReport < ActiveRecord::Base
   belongs_to :creator, :class_name => 'User', :foreign_key => :creator_id
   belongs_to :problem_type, :class_name => 'ProblemType'
   has_many :problem_report_attachements, :class_name => 'ProblemReportAttachement', :foreign_key => :report_id
+  has_many :problem_field_data
   
   accepts_nested_attributes_for :problem_report_attachements
+  accepts_nested_attributes_for :problem_field_data
   
   # --- 校验方法
   validates :content, :presence => true
