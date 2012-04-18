@@ -7,7 +7,9 @@ class ProblemFieldsController < ApplicationController
   def create
     unless params[:problem_fields].blank?
       params[:problem_fields].each do |field|
-        ProblemField.create(:creator => current_user, :name  => field)
+        unless field.blank?
+          ProblemField.create(:creator => current_user, :name  => field)
+        end
       end
     end
     redirect_to :back
