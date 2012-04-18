@@ -6,7 +6,7 @@ class ProblemReport < ActiveRecord::Base
   # --- 模型关联
   belongs_to :creator, :class_name => 'User', :foreign_key => :creator_id
   belongs_to :problem_type, :class_name => 'ProblemType'
-  has_many :problem_report_attachements, :foreign_key => :report_id
+  has_many :problem_report_attachements, :class_name => 'ProblemReportAttachement', :foreign_key => :report_id
   
   accepts_nested_attributes_for :problem_report_attachements
   

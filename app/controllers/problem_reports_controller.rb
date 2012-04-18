@@ -36,12 +36,7 @@ class ProblemReportsController < ApplicationController
     if logged_in?
       @problem_report = current_user.problem_reports.build(params[:problem_report])
     else
-      @problem_report = ProblemReport.new
-      if simple_captcha_valid?
-        @problem_report.email = params[:email]
-        @problem_report.content= params[:problem_report][:content]
-        @problem_report.ip = request.remote_ip
-      end
+      @problem_report = ProblemReport.create(params[:problem_report]) if simple_captcha_valid?
     end
     
     unless @problem_report.save
@@ -51,6 +46,8 @@ class ProblemReportsController < ApplicationController
       # 关联上传表单
       attachements = params[:attachements]
       unless attachements.blank?
+        #@problem_report.attachements = ProblemReportAttachement.find_all_by_id(params[:attachements])
+        #@problem_report.save 
         attachements.each do |attachement_id|
           problem_report_attachement = ProblemReportAttachement.find(attachement_id)
           problem_report_attachement.problem_report = @problem_report
