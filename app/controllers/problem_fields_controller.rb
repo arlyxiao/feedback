@@ -1,0 +1,2 @@
+class ProblemFieldsController < ApplicationController
+end
