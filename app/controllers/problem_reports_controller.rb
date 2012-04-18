@@ -72,7 +72,7 @@ class ProblemReportsController < ApplicationController
   end
   
   def upload_attachement
-    report = ProblemReportAttachement.create( params[:problem_report_attachement] )
+    report = ProblemReportAttachement.create( params[:attachement] )
     render :text => report.id
     # render :text => 1
   end
