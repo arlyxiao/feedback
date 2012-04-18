@@ -1,15 +1,15 @@
 class ProblemReportsController < ApplicationController
   def index
-    if current_user.is_admin
+    if current_user.is_admin?
       unless params[:type].blank?
-        @reports = ProblemReport.find_all_by_problem_type_id(params[:type])
+        @reports = ProblemReport.find_all_by_problem_type_id(params[:problem_type_id])
       else
         @reports = ProblemReport.all
       end
       
     else
       unless params[:type].blank?
-        @reports = current_user.problem_reports.find_all_by_problem_type_id(params[:type])
+        @reports = current_user.problem_reports.find_all_by_problem_type_id(params[:problem_type_id])
       else
         @reports = current_user.problem_reports
       end
@@ -69,7 +69,6 @@ class ProblemReportsController < ApplicationController
   def reply
     report = ProblemReport.find(params[:report_id])
     report.admin_reply = params[:admin_reply]
-    report.replied_at = Time.now
     report.save
     
     redirect_to problem_reports_path

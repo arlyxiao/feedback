@@ -10,7 +10,7 @@
 %p
   问题类型
   - @problem_types.each do |type|
-    = link_to type.name, "/problem_reports?type=#{type.id}"
+    = link_to type.name, "/problem_reports?problem_type_id=#{type.id}"
 
 %ul
   - unless @reports.blank?
@@ -18,7 +18,7 @@
       %li
         %p
           - unless report.problem_type.blank?
-            = link_to report.problem_type.name, "/problem_reports?problem_type=#{report.problem_type_id}"
+            = link_to report.problem_type.name, "/problem_reports?problem_type_id=#{report.problem_type_id}"
         
         - if report.creator.blank?
           %p

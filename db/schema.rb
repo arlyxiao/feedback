@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120417084752) do
+ActiveRecord::Schema.define(:version => 20120418021635) do
 
   create_table "answer_votes", :force => true do |t|
     t.integer  "user_id"
@@ -148,7 +148,6 @@ ActiveRecord::Schema.define(:version => 20120417084752) do
     t.string   "ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "replied_at"
     t.integer  "problem_type_id"
   end
 

@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
   end
   
   # 是否是管理员
-  def is_admin
+  def is_admin?
     return true if self.id == 1
     return false
   end
