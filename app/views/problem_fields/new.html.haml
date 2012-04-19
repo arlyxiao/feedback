@@ -9,10 +9,28 @@
     var type = $(this).attr('class');
     var field = '<input type="text" name="problem_fields[' + type + ']"  />';
     
-    var field_type = '<input type="hidden" value="' + type + '" name="field_types[]"';
+    var field_type = '<input type="hidden" value="' + type + '" name="field_types[]" />';
     var remove_button = '<a href="javascript:" class="delete">X</a>';
     $('#problem-fields').append("<li>" + field + field_type + remove_button + "</li>");
   })
+  
+  // 增加下拉表单
+  jQuery('#add-select-field').live('click', function(){
+    var type = $(this).attr('class');
+    var field = '下拉菜单标题 <input type="text" name="problem_fields[' + type + ']"  />';
+    field = field + '<a href="javascript:" class="add-select-option">添加下拉选项</a>';
+    var field_type = '<input type="hidden" value="' + type + '" name="field_types[]" />';
+    var remove_button = '<a href="javascript:" class="delete">X</a>';
+    $('#problem-fields').append("<li>" + field + field_type + remove_button + "</li>");
+  })
+  
+  // 增加下拉表单选项
+  jQuery('.add-select-option').live('click', function(){
+    var field = '选项 <input type="text" name="select_options[]"  />';
+    var remove_button = '<a href="javascript:" class="delete">X</a>';
+    $('#problem-fields').append("<li>" + field  + remove_button + "</li>");
+  })
+  
   
 
 %p= link_to '报告列表', problem_reports_path
@@ -37,7 +55,7 @@
       增加内容框+
     %a#add-problem-field{:href => "javascript:", :class => 'date-field'}
       增加日期框+
-    %a#add-problem-field{:href => "javascript:", :class => 'select-field'} 
+    %a#add-select-field{:href => "javascript:", :class => 'select-field'} 
       增加下拉框+
   
   %ul#problem-fields
