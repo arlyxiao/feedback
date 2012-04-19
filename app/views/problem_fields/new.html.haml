@@ -1,0 +1,36 @@
+:javascript
+  // 删除表单
+  jQuery('a.delete').live('click', function(){
+    $(this).parent().remove();
+  })
+    
+  jQuery('#add-problem-field').live('click', function(){
+    var field = '<input type="text" name="problem_fields[]"  />';
+    var remove_button = '<a href="javascript:" class="delete">X</a>';
+    $('#problem-fields').append("<li>" + field + remove_button + "</li>");
+  })
+  
+
+%p= link_to '报告列表', problem_reports_path
+
+%ul
+  - unless @problem_fields.blank?
+    - @problem_fields.each do |field|
+      %li 
+        = field.name
+        = link_to '删除', field, :confirm => '确定删除?', :method => :delete
+
+.page-new
+  = flash.now[:error]
+
+= form_for @problem_field, :url => { :action => "create" }, :html => {:class => "assign_form", :multipart => true} do |f|
+
+
+  %p
+    %a#add-problem-field{:href => "javascript:"} 增加新字段+
+  
+  %ul#problem-fields
+    %li 字段列表
+    
+  = f.submit "确定保存"
+  

@@ -12,6 +12,12 @@ gem 'therubyracer'
 
 gem 'haml'
 
+# paperclip
+gem 'paperclip', '2.4.5'
+gem 'paperclip-meta'
+
+gem 'rubyzip', '0.9.4'
+
 gem 'galetahub-simple_captcha', :require => 'simple_captcha', :git => 'git://github.com/galetahub/simple-captcha.git'
 
 gem 'uuidtools', :require => 'uuidtools'

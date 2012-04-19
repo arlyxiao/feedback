@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Creator:</b>
+  <%= @problem_type.creator_id %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @problem_type.name %>
+</p>
+
+
+<%= link_to 'Edit', edit_problem_type_path(@problem_type) %> |
+<%= link_to 'Back', problem_types_path %>

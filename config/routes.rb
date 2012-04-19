@@ -1,8 +1,12 @@
 Feedback::Application.routes.draw do
   
+  resources :problem_fields
+  resources :problem_types
+
   resources :problem_reports do
     collection do
-
+      post :reply
+      post :upload_attachement
     end
     
     member do

@@ -1,0 +1,49 @@
+:javascript
+
+
+- if current_user.is_admin?
+  = link_to '创建类型', new_problem_type_path
+
+%p
+  %a{:href => "/problem_reports/new"} 提交新问题
+
+%p
+  问题类型
+  - @problem_types.each do |type|
+    = link_to type.name, "/problem_reports?problem_type_id=#{type.id}"
+
+%ul
+  - unless @reports.blank?
+    - @reports.each do |report|
+      %li
+        %p
+          - unless report.problem_type.blank?
+            = link_to report.problem_type.name, "/problem_reports?problem_type_id=#{report.problem_type_id}"
+        
+        - if report.creator.blank?
+          %p
+            匿名
+            = report.email
+        - else
+          %p
+            = report.creator.name
+        
+        %p 
+          = report.ip
+        
+        = report.content
+        %p 
+          = report.created_at
+        
+        - unless report.admin_reply.blank?
+          %p
+            %span 管理员回复
+            = report.admin_reply
+        - else
+          %form{"accept-charset" => "UTF-8", :action => "/problem_reports/reply", :method => "post"}
+            %p
+              %input{:name => "report_id", :type => "hidden", :value => "#{report.id}"}/
+              %span 回复
+              %textarea{:name => "admin_reply"}
+            %p
+              %a.form-submit-button{:href=>'javascript:;'} 发送

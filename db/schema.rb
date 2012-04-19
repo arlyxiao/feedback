@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120416134313) do
+ActiveRecord::Schema.define(:version => 20120418064543) do
 
   create_table "answer_votes", :force => true do |t|
     t.integer  "user_id"
@@ -129,12 +129,46 @@ ActiveRecord::Schema.define(:version => 20120416134313) do
   add_index "online_records", ["key"], :name => "index_online_records_on_key"
   add_index "online_records", ["user_id"], :name => "index_online_records_on_user_id"
 
+  create_table "problem_field_data", :force => true do |t|
+    t.integer  "problem_report_id"
+    t.integer  "problem_field_id"
+    t.string   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "problem_fields", :force => true do |t|
+    t.integer  "creator_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "problem_report_attachements", :force => true do |t|
+    t.integer  "creator_id"
+    t.integer  "report_id"
+    t.string   "attachement_file_name"
+    t.string   "attachement_content_type"
+    t.integer  "attachement_file_size"
+    t.datetime "attachement_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "problem_reports", :force => true do |t|
     t.integer  "creator_id"
     t.string   "email"
     t.text     "content"
     t.text     "admin_reply"
     t.string   "ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "problem_type_id"
+  end
+
+  create_table "problem_types", :force => true do |t|
+    t.integer  "creator_id"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

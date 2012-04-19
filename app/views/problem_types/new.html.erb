@@ -1,0 +1,11 @@
+
+= form_for @problem_type do |f|
+  %p
+  	名称
+    = f.text_field :name
+      
+  .field
+    %a.form-submit-button{:href=>'javascript:;'} 发送
+
+%p
+	= link_to 'Back', problem_types_path

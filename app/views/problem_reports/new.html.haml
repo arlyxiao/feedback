@@ -1,7 +1,48 @@
+:javascript
+  // 上传附件
+  jQuery('.multiple').live('click', function(){
+    var current_name = $(this).attr("name");
+
+    jQuery("#dropbox, .multiple").html5Uploader({
+      // name: "problem_report_attachement[attachement]",
+      name: current_name,
+      postUrl: '/problem_reports/upload_attachement',
+      onSuccess: function(e, file, data){
+        $(this).replaceWith("<input type='file' class='multiple' name='attachement[attachement]' />");
+
+        var attachements = '<input type="text" name="attachements[]" value="' + data + '" value="">';
+        $('#report-attachements').append(attachements);
+      }
+    });
+
+  })
+
 = form_for @problem_report do |f|
   %p
+    问题类型
+    = select ("problem_report", "problem_type_id", @problem_types.map {|u| [u.name,u.id]})
+  %p
     %textarea{:id => "", :name => "problem_report[content]", :style => "width: 380px; height: 100px;"}
-      
+  
+  - unless @problem_fields.blank?
+    %ul
+      - @problem_fields.each do |field|
+        %li
+          = field.name
+          %p
+            %input{:type=>'hidden',:value => field.id, :name=>"problem_report[problem_field_data_attributes][#{field.id}][problem_field_id]"}
+            %input{:type=>'text', :name=>"problem_field_data[#{field.id}]"}
+    
+  
+  %p 
+    问题附件
+    #report-attachements{:style => "display: none;"}
+    #dropbox
+    %div{:id => "report-attachement-fields"}
+      %input.multiple{:multiple => "", :type => "file", :name => "attachement0[attachement]"}/
+      %input.multiple{:multiple => "", :type => "file", :name => "attachement1[attachement]"}/
+      %input.multiple{:multiple => "", :type => "file", :name => "attachement2[attachement]"}/
+        
   .field
     %a.form-submit-button{:href=>'javascript:;'} 发送
     
@@ -9,9 +50,17 @@
   %p
     我提过的意见
     %ul
-      - @reports.each do |report|
-        %li
-          = report.content
-          %p 
-            = report.created_at
+      - unless @reports.blank?
+        - @reports.each do |report|
+          %li
+            %p 
+              = report.content
+            %p 
+              = report.created_at
+          
+          %p
+            - unless report.admin_reply.blank?
+              %p
+                管理员回复
+              = report.admin_reply
       

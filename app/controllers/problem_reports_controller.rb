@@ -1,9 +1,29 @@
 class ProblemReportsController < ApplicationController
   def index
+    if current_user.is_admin?
+      unless params[:type].blank?
+        @reports = ProblemReport.find_all_by_problem_type_id(params[:problem_type_id])
+      else
+        @reports = ProblemReport.all
+      end
+      
+    else
+      unless params[:type].blank?
+        @reports = current_user.problem_reports.find_all_by_problem_type_id(params[:problem_type_id])
+      else
+        @reports = current_user.problem_reports
+      end
+      
+    end
+    
+    # 问题类型
+    @problem_types = ProblemType.all
   end
   
   def new
     @problem_report = ProblemReport.new
+    @problem_types = ProblemType.all
+    @problem_fields = ProblemField.all
 
     if logged_in?
       @reports = current_user.problem_reports
@@ -16,20 +36,52 @@ class ProblemReportsController < ApplicationController
     params[:problem_report][:ip] = request.remote_ip
     if logged_in?
       @problem_report = current_user.problem_reports.build(params[:problem_report])
-      @problem_report.save
     else
-      @problem_report = ProblemReport.new
-      if @problem_report.valid_with_captcha?
-        @problem_report.email = params[:email]
-        @problem_report.content= params[:content]
-        @problem_report.ip = request.remote_ip
-        @problem_report.save
+      @problem_report = ProblemReport.create(params[:problem_report]) if simple_captcha_valid?
+    end
+    
+    unless @problem_report.save
+      error = @problem_report.errors.first
+      flash[:error] = "#{error[0]} #{error[1]}"
+    else
+      # 关联动态生成的字段内容
+      @problem_report.problem_field_data.each do |field_data|
+        field_data.content = params[:problem_field_data][field_data.problem_field_id.to_s]
+        field_data.save
+      end
+      
+      # 关联上传表单
+      attachements = params[:attachements]
+      unless attachements.blank?
+        #@problem_report.attachements = ProblemReportAttachement.find_all_by_id(params[:attachements])
+        #@problem_report.save 
+        attachements.each do |attachement_id|
+          problem_report_attachement = ProblemReportAttachement.find(attachement_id)
+          problem_report_attachement.problem_report = @problem_report
+          problem_report_attachement.creator = current_user
+          problem_report_attachement.save
+        end
+        
+        # 生成 zip 包
+        @problem_report.build_attachements_zip(current_user)
       end
     end
+    
     redirect_to new_problem_report_path
   end
 
   def reply
+    report = ProblemReport.find(params[:report_id])
+    report.admin_reply = params[:admin_reply]
+    report.save
+    
+    redirect_to problem_reports_path
+  end
+  
+  def upload_attachement
+    report = ProblemReportAttachement.create( params[:attachement] )
+    render :text => report.id
+    # render :text => 1
   end
 
 end
