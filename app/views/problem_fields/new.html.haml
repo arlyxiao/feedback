@@ -3,11 +3,15 @@
   jQuery('a.delete').live('click', function(){
     $(this).parent().remove();
   })
-    
+  
+  // 增加表单
   jQuery('#add-problem-field').live('click', function(){
-    var field = '<input type="text" name="problem_fields[]"  />';
+    var type = $(this).attr('class');
+    var field = '<input type="text" name="problem_fields[' + type + ']"  />';
+    
+    var field_type = '<input type="hidden" value="' + type + '" name="field_types[]"';
     var remove_button = '<a href="javascript:" class="delete">X</a>';
-    $('#problem-fields').append("<li>" + field + remove_button + "</li>");
+    $('#problem-fields').append("<li>" + field + field_type + remove_button + "</li>");
   })
   
 
@@ -27,7 +31,14 @@
 
 
   %p
-    %a#add-problem-field{:href => "javascript:"} 增加新字段+
+    %a#add-problem-field{:href => "javascript:", :class => 'text-field'} 
+      增加文本框+
+    %a#add-problem-field{:href => "javascript:", :class => 'textarea-field'} 
+      增加内容框+
+    %a#add-problem-field{:href => "javascript:", :class => 'date-field'}
+      增加日期框+
+    %a#add-problem-field{:href => "javascript:", :class => 'select-field'} 
+      增加下拉框+
   
   %ul#problem-fields
     %li 字段列表

@@ -5,10 +5,11 @@ class ProblemFieldsController < ApplicationController
   end
   
   def create
-    unless params[:problem_fields].blank?
-      params[:problem_fields].each do |field|
-        unless field.blank?
-          ProblemField.create(:creator => current_user, :name  => field)
+    unless params[:field_types].blank?
+      params[:field_types].each do |type|
+        unless type.blank?
+          field = params[:problem_fields][type]
+          ProblemField.create(:creator => current_user, :name  => field, :field_type => type)
         end
       end
     end
