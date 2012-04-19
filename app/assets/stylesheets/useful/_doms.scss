@@ -1,0 +1,72 @@
+$black-shadow:rgba(black, 0.2);
+$tiny-border-color:rgba(black, 0.1);
+$medium-border-color:rgba(black, 0.3);
+
+
+@mixin new-button{
+  float:left;
+  height:24px;line-height:24px;
+  @include border-radius(2px);
+  box-shadow:0 0 2px rgba(0, 0, 0, 0.3);
+  border:solid 1px #6EA821;
+  @include gradient(#92D440, #7EBD2E);
+  //border:solid 1px darken(#C1CE28, 5%);
+  //@include gradient(#C1CE28, darken(#C1CE28,10%));
+  color:white;
+  text-shadow:-1px -1px 0 rgba(0, 0, 0, 0.2);
+  padding:0 8px;
+  &:hover{text-decoration:none;
+    @include gradient(#8AD033, #76B12B);
+    border:solid 1px #5E8F1C;
+  };
+}
+
+@mixin common-mini-button{
+  float:left;
+  height:22px;line-height:22px;
+  @include border-radius(3px);
+  //box-shadow:0 0 2px rgba(0, 0, 0, 0.3);
+  border:solid 1px #d4d4d4;
+  @include gradient(#f4f4f4, #ececec);
+  color:#333;
+  text-shadow:1px 1px 0 #FFFFFF;
+  padding:0 8px;
+  &:hover{text-decoration:none;
+    @include gradient(#599bdc, #3072b3);
+    border-color:#518cc6 #518cc6 #2a65a0;
+    text-shadow:-1px -1px 0 rgba(black, 0.3);
+    color:white;
+  };
+}
+
+$story-status-not-assign-color:#C34000;
+$story-status-doing-color:#95BB52;
+$story-status-reviewing-color:#5552BB;
+$story-status-done-color:#1888EA;
+$story-status-pause-color:#EAC018;
+
+.page-story-status-label{
+  color:white;
+  @include border-radius(3px);
+  height:24px;line-height:24px;font-size:12px;
+  display:inline-block;
+  box-shadow:0px 0px 1px rgba(black, 0.5) inset;
+  text-shadow:1px 1px 0 rgba(black, 0.2);
+  width:60px;text-align:center;
+  
+  &.not-assign{
+    background-color:$story-status-not-assign-color;
+  }
+  &.doing{
+    background-color:$story-status-doing-color;
+  }
+  &.reviewing{
+    background-color:$story-status-reviewing-color;
+  }
+  &.done{
+    background-color:$story-status-done-color;
+  }
+  &.pause{
+    background-color:$story-status-pause-color;
+  }
+}

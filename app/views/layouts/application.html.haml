@@ -2,12 +2,12 @@
 
 :ruby
   tstr = ((yield :title) || '').gsub("\n",'')
-  title = tstr.blank? ? "MINDPIN - 问题报告 - 原型" : "#{tstr} - MINDPIN - 问题报告 - 原型"
+  title = tstr.blank? ? '问题反馈板原型' : "#{tstr} - 问题反馈板原型"
 
 !!! 5
-%html{:lang=>"zh"}
+%html{:lang=>'zh'}
   %head
-    %meta{:charset=>"utf-8"}
+    %meta{:charset=>'utf-8'}
     %title=title
     = csrf_meta_tags
     = stylesheet_link_tag 'application'
@@ -18,11 +18,16 @@
     .page-wrap
       .page-container
         .page-header
-          .title=title
-          -if logged_in?
-            .current-user 欢迎你，#{current_user.name}
-            .logout=link_to '退出登录', '/logout'
+          .h
+            .title
+              %a{:href=>'/'} MINDPIN TEAM AGILE PLAYGROUND
+            -if logged_in?
+              .user
+                .current-user 欢迎你，#{current_user.name}
+                .current-user-avatar=avatar current_user,:tiny
+                .logout=link_to '登出','/logout'
         .page-content
           = yield
 
+    = javascript_include_tag 'application'
     = yield :javascript
