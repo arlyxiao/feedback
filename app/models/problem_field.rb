@@ -2,6 +2,7 @@ class ProblemField < ActiveRecord::Base
   # --- 模型关联
   belongs_to :creator, :class_name => 'User', :foreign_key => 'creator_id'
   has_many :problem_field_data
+  has_many :problem_field_types
   
   # --- 校验方法
   
