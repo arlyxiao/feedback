@@ -1,4 +1,20 @@
+%script{:src => "/assets/jquery-ui-1.8.18.custom.min.js", :type => "text/javascript"}
+%script{:src => "/assets/jquery.ui.datepicker.js", :type => "text/javascript"}
+%script{:src => "/assets/jquery.ui.datepicker-zh-CN.js", :type => "text/javascript"}
+%link{:href => "/assets/jquery-ui-1.8.18.custom.css", :rel => "stylesheet", :type => "text/css"}/
+
+
 :javascript
+  jQuery(document).ready(function(){
+    $('.date-field').datepicker({
+        showSecond: true,
+        changeMonth: true,
+        changeYear: true,
+        timeFormat: 'hh:mm:ss',
+        dateFormat: 'yy-mm-dd'
+    });
+  });
+  
   // 上传附件
   jQuery('.multiple').live('click', function(){
     var current_name = $(this).attr("name");
@@ -48,7 +64,7 @@
                     %option{:value => "#{type.title}"} #{type.title}
                
               - when 'date-field'
-                %input{:type=>'text', :name=>"problem_report[problem_field_data_attributes][#{field.id}][content]"}
+                %input{:type=>'text', :class => 'date-field', :name=>"problem_report[problem_field_data_attributes][#{field.id}][content]"}
                 
               - when 'file-field'
                 %input.multiple{:multiple => "", :type => "file", :name => "attachement[attachement]"}/
