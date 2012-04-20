@@ -36,7 +36,7 @@
 = form_for @problem_report do |f|
   %p
     问题类型
-    = select ("problem_report", "problem_type_id", @problem_types.map {|u| [u.name,u.id]}, {:prompt => '请选择类型'}, {:onchange => "window.location.href='/problem_reports/new?problem_type_id=' + this[this.selectedIndex].value;"})
+    = select ("problem_report", "problem_type_id", @problem_types.map {|u| [u.name,u.id]}, {:selected => params[:problem_type_id], :prompt => '请选择类型'}, {:onchange => "window.location.href='/problem_reports/new?problem_type_id=' + this[this.selectedIndex].value;"})
   
   - unless params[:problem_type_id].blank?
   
