@@ -1,23 +1,36 @@
 class ProblemReportsController < ApplicationController
+  before_filter :valid_simple_captcha,:only=>[:create]
+  def valid_simple_captcha
+    if !logged_in? && !simple_captcha_valid?
+      flash[:error] = "验证码输入错误"
+      redirect_to "/problem_reports/new"
+    end
+  end
+
   def index
     if current_user.is_admin?
-      unless params[:type].blank?
-        @reports = ProblemReport.find_all_by_problem_type_id(params[:problem_type_id])
-      else
-        @reports = ProblemReport.all
-      end
-      
+      _index_admin
     else
-      unless params[:type].blank?
-        @reports = current_user.problem_reports.find_all_by_problem_type_id(params[:problem_type_id])
-      else
-        @reports = current_user.problem_reports
-      end
-      
+      _index_common_user
     end
-    
     # 问题类型
     @problem_types = ProblemType.all
+  end
+
+  def _index_common_user
+    unless params[:type].blank?
+      @reports = current_user.problem_reports.find_all_by_problem_type_id(params[:problem_type_id])
+    else
+      @reports = current_user.problem_reports
+    end
+  end
+
+  def _index_admin
+    unless params[:type].blank?
+      @reports = ProblemReport.find_all_by_problem_type_id(params[:problem_type_id])
+    else
+      @reports = ProblemReport.all
+    end
   end
   
   def new
@@ -32,39 +45,26 @@ class ProblemReportsController < ApplicationController
     end
   end
 
-  def create
-    params[:problem_report][:ip] = request.remote_ip
+  def _create_build_problem_report
     if logged_in?
-      @problem_report = current_user.problem_reports.build(params[:problem_report])
+      problem_report = current_user.problem_reports.build(params[:problem_report])
     else
-      @problem_report = ProblemReport.create(params[:problem_report]) if simple_captcha_valid?
+      problem_report = ProblemReport.new(params[:problem_report])
     end
-    
-    unless @problem_report.save
+    problem_report.ip = request.remote_ip
+    # 关联附件
+    problem_report.attachement_ids = params[:attachements]
+
+    problem_report    
+  end
+
+  def create
+    @problem_report = _create_build_problem_report
+
+    if !@problem_report.save
       error = @problem_report.errors.first
       flash[:error] = "#{error[0]} #{error[1]}"
-    else
-      # 关联动态生成的字段内容
-      @problem_report.problem_field_data.each do |field_data|
-        field_data.content = params[:problem_field_data][field_data.problem_field_id.to_s]
-        field_data.save
-      end
-      
-      # 关联上传表单
-      attachements = params[:attachements]
-      unless attachements.blank?
-        #@problem_report.attachements = ProblemReportAttachement.find_all_by_id(params[:attachements])
-        #@problem_report.save 
-        attachements.each do |attachement_id|
-          problem_report_attachement = ProblemReportAttachement.find(attachement_id)
-          problem_report_attachement.problem_report = @problem_report
-          problem_report_attachement.creator = current_user
-          problem_report_attachement.save
-        end
-        
-        # 生成 zip 包
-        @problem_report.build_attachements_zip(current_user)
-      end
+      return redirect_to "/problem_reports/new"
     end
     
     redirect_to new_problem_report_path

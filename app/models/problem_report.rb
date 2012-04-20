@@ -9,8 +9,24 @@ class ProblemReport < ActiveRecord::Base
   has_many :problem_report_attachements, :class_name => 'ProblemReportAttachement', :foreign_key => :report_id
   has_many :problem_field_data, :class_name => 'ProblemFieldData', :foreign_key => :problem_report_id
   
-  accepts_nested_attributes_for :problem_report_attachements
   accepts_nested_attributes_for :problem_field_data
+
+  attr_accessor :attachement_ids
+
+  after_create :set_attachements
+  def set_attachements
+    unless self.attachement_ids.blank?
+      self.attachement_ids.each do |attachement_id|
+        problem_report_attachement = ProblemReportAttachement.find(attachement_id)
+        problem_report_attachement.problem_report = self
+        problem_report_attachement.creator = self.creator
+        problem_report_attachement.save
+      end
+      
+      # 生成 zip 包
+      # self.build_attachements_zip(self.creator)
+    end
+  end
   
   # --- 校验方法
   validates :content, :presence => true
