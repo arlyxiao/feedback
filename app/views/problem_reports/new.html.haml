@@ -31,7 +31,7 @@
           = field.name
           %p
             %input{:type=>'hidden',:value => field.id, :name=>"problem_report[problem_field_data_attributes][#{field.id}][problem_field_id]"}
-            %input{:type=>'text', :name=>"problem_field_data[#{field.id}]"}
+            %input{:type=>'text', :name=>"problem_report[problem_field_data_attributes][#{field.id}][content]"}
     
   
   %p 

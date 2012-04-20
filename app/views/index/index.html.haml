@@ -13,8 +13,11 @@
 
  
 .page-to-votes
-  =link_to '报告列表','/problem_reports'
-  =link_to '提交新报告','/problem_reports/new'
+  =link_to '问题列表','/problem_reports'
+
+  - if current_user.is_admin?
+    = link_to '问题类别列表', problem_types_path
+    = link_to '问题的内容字段', new_problem_field_path
 
 .page-to-logout
   =link_to "退出登录","/logout"
