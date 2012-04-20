@@ -7,7 +7,24 @@
   // 增加表单
   jQuery('#add-problem-field').live('click', function(){
     var type = $(this).attr('class');
-    var field = '<input type="text" name="problem_fields[' + type + ']"  />';
+    
+    switch(type)
+    {
+      case 'file-field':
+        var title = '上传文件';
+        break;
+      case 'date-field':
+        var title = '日期框';
+        break;
+      case 'textarea-field':
+        var title = '内容框';
+        break;
+      default:
+        var title = '文本框';
+        break;
+    }
+    
+    var field = title + '<input type="text" name="problem_fields[' + type + ']"  />';
     
     var field_type = '<input type="hidden" value="' + type + '" name="field_types[]" />';
     var remove_button = '<a href="javascript:" class="delete">X</a>';
@@ -55,6 +72,8 @@
       增加日期框+
     %a#add-select-field{:href => "javascript:", :class => 'select-field'} 
       增加下拉框+
+    %a#add-problem-field{:href => "javascript:", :class => 'file-field'} 
+      增加文件上传+
   
   %ul#problem-fields
     %li 字段列表

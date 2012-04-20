@@ -30,33 +30,33 @@
         %li
           = field.name
           %p
+            #report-attachements{:style => "display: none;"}
+            #dropbox
+            
             %input{:type=>'hidden',:value => field.id, :name=>"problem_report[problem_field_data_attributes][#{field.id}][problem_field_id]"}
 
             - case field.field_type
               - when 'text-field'
-                %input{:type=>'text', :name=>"problem_field_data[#{field.id}]"}
+                %input{:type=>'text', :name=>"problem_report[problem_field_data_attributes][#{field.id}][content]"}
               
               - when 'textarea-field'
-                %textarea{:name => "problem_field_data[#{field.id}]", :style => "width: 200px; height: 50px;"}
+                %textarea{:name => "problem_report[problem_field_data_attributes][#{field.id}][content]", :style => "width: 200px; height: 50px;"}
                   
               - when 'select-field'
-                %select{:name => "problem_field_data[#{field.id}]"}
+                %select{:name => "problem_report[problem_field_data_attributes][#{field.id}][content]"}
                   - field.problem_field_types.each do |type|
                     %option{:value => "#{type.title}"} #{type.title}
+               
+              - when 'date-field'
+                %input{:type=>'text', :name=>"problem_report[problem_field_data_attributes][#{field.id}][content]"}
+                
+              - when 'file-field'
+                %input.multiple{:multiple => "", :type => "file", :name => "attachement[attachement]"}/
                   
 
-            %input{:type=>'text', :name=>"problem_report[problem_field_data_attributes][#{field.id}][content]"}
+            
 
-    
-  
-  %p 
-    问题附件
-    #report-attachements{:style => "display: none;"}
-    #dropbox
-    %div{:id => "report-attachement-fields"}
-      %input.multiple{:multiple => "", :type => "file", :name => "attachement[attachement]"}/
-      %input.multiple{:multiple => "", :type => "file", :name => "attachement[attachement]"}/
-      %input.multiple{:multiple => "", :type => "file", :name => "attachement[attachement]"}/
+   
         
   .field
     %a.form-submit-button{:href=>'javascript:;'} 发送
