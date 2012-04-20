@@ -36,7 +36,12 @@ class ProblemReportsController < ApplicationController
   def new
     @problem_report = ProblemReport.new
     @problem_types = ProblemType.all
-    @problem_fields = ProblemField.all
+    unless params[:problem_type_id].blank?
+      @problem_fields = ProblemType.find(params[:problem_type_id]).problem_fields
+    else
+      @problem_fields = ProblemType.all
+    end
+    
 
     if logged_in?
       @reports = current_user.problem_reports
