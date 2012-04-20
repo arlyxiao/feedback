@@ -16,12 +16,15 @@ class ProblemReport < ActiveRecord::Base
   after_create :set_attachements
   def set_attachements
     unless self.attachement_ids.blank?
+      self.problem_report_attachements = ProblemReportAttachement.find_all_by_id(self.attachement_ids)
+=begin
       self.attachement_ids.each do |attachement_id|
         problem_report_attachement = ProblemReportAttachement.find(attachement_id)
         problem_report_attachement.problem_report = self
         problem_report_attachement.creator = self.creator
         problem_report_attachement.save
       end
+=end
       
       # 生成 zip 包
       # self.build_attachements_zip(self.creator)

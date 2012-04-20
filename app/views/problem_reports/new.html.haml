@@ -3,7 +3,7 @@
   jQuery('.multiple').live('click', function(){
     var current_name = $(this).attr("name");
 
-    jQuery("#dropbox, .multiple").html5Uploader({
+    jQuery(this).html5Uploader({
       // name: "problem_report_attachement[attachement]",
       name: current_name,
       postUrl: '/problem_reports/upload_attachement',
@@ -54,9 +54,9 @@
     #report-attachements{:style => "display: none;"}
     #dropbox
     %div{:id => "report-attachement-fields"}
-      %input.multiple{:multiple => "", :type => "file", :name => "attachement0[attachement]"}/
-      %input.multiple{:multiple => "", :type => "file", :name => "attachement1[attachement]"}/
-      %input.multiple{:multiple => "", :type => "file", :name => "attachement2[attachement]"}/
+      %input.multiple{:multiple => "", :type => "file", :name => "attachement[attachement]"}/
+      %input.multiple{:multiple => "", :type => "file", :name => "attachement[attachement]"}/
+      %input.multiple{:multiple => "", :type => "file", :name => "attachement[attachement]"}/
         
   .field
     %a.form-submit-button{:href=>'javascript:;'} 发送

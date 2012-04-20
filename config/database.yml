@@ -6,9 +6,9 @@
 development:
   adapter: mysql2
   encoding: utf8
-  database: feedback_dev
+  database: vote_dev
   username: root
-  password: root 
+  password: '111111' 
   pool: 5
   timeout: 5000
   reconnect: true
@@ -16,8 +16,8 @@ development:
 test:
   adapter: mysql2
   encoding: utf8
-  database: feedback_test
+  database: vote_test
   username: root
-  password: root
+  password: '111111'
   pool: 5
   timeout: 5000
