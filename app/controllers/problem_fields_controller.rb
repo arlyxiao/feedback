@@ -9,7 +9,12 @@ class ProblemFieldsController < ApplicationController
       params[:field_types].each do |type|
         unless type.blank?
           field = params[:problem_fields][type]
-          problem_field = ProblemField.create(:creator => current_user, :name  => field, :field_type => type)
+          problem_field = ProblemField.create(
+            :creator => current_user, 
+            :name  => field, 
+            :field_type => type,
+            :problem_type_id => params[:problem_field][:problem_type_id]
+          )
           
           # 保存表单类型值
           case type
