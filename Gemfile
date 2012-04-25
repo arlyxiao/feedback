@@ -12,6 +12,9 @@ gem 'therubyracer'
 
 gem 'haml'
 
+gem 'carrierwave'
+gem 'nokogiri'
+
 # paperclip
 gem 'paperclip', '2.4.5'
 gem 'paperclip-meta'

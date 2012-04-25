@@ -3,7 +3,7 @@ class ProblemType < ActiveRecord::Base
   belongs_to :creator, :class_name => 'User', :foreign_key => :creator_id
   has_many :problem_reports
   has_many :problem_fields
-  
+
   # --- 校验方法
   validates :name, :presence => true
   

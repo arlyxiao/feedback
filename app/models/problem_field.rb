@@ -4,7 +4,7 @@ class ProblemField < ActiveRecord::Base
   belongs_to :problem_type
   has_many :problem_field_data
   has_many :problem_field_types
-
+  
   # --- 校验方法
   
   

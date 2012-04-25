@@ -86,10 +86,45 @@ class ProblemTypesController < ApplicationController
   def export_to_xml
     @problem_type = ProblemType.find(params[:id])
     @entries = @problem_type.problem_fields
+
+    builder = Nokogiri::XML::Builder.new do |xml|
+      xml.root {
+        xml.objects {
+          @entries.each do |o|
+            xml.object(
+              :problem_type_id => o.problem_type_id, 
+              :name => o.name, 
+              :field_type => o.field_type
+            )
+          end
+        }
+      }
+    end
     
-    send_data @entries.to_xml,
+    send_data builder.to_xml,
       :type => 'text/xml; charset=UTF-8;',
       :disposition => "attachment; filename=entries.xml"
+  end
+  
+  def import_from_xml
+    xmlfile = params[:xmlfile]
+    if xmlfile.respond_to?(:read)
+      xml_contents = xmlfile.read
+    else xmlfile.respond_to?(:path)
+      xml_contents = File.read(xmlfile.path)
+    end
+    
+    xml = Nokogiri::XML(xml_contents)
+    xml.xpath('//root/objects/object').each do |node|
+      ProblemField.create(
+        :name => node['name'],
+        :problem_type_id => node['problem_type_id'],
+        :field_type => node['field_type']
+      )
+    end
+    
+    redirect_to :back
+    
   end
   
 end

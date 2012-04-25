@@ -5,6 +5,7 @@ Feedback::Application.routes.draw do
   resources :problem_types do
     collection do
       get :export_to_xml
+      post :import_from_xml
     end
     
     member do
