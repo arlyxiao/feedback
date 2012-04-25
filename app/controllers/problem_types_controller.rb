@@ -14,9 +14,11 @@ class ProblemTypesController < ApplicationController
   # GET /problem_types/1.json
   def show
     @problem_type = ProblemType.find(params[:id])
+    @problem_fields = @problem_type.problem_fields
 
     respond_to do |format|
       format.html # show.html.erb
+      format.xml  { render :xml => @problem_fields }
       format.json { render :json => @problem_type }
     end
   end
@@ -80,4 +82,14 @@ class ProblemTypesController < ApplicationController
       format.json { head :ok }
     end
   end
+  
+  def export_to_xml
+    @problem_type = ProblemType.find(params[:id])
+    @entries = @problem_type.problem_fields
+    
+    send_data @entries.to_xml,
+      :type => 'text/xml; charset=UTF-8;',
+      :disposition => "attachment; filename=entries.xml"
+  end
+  
 end

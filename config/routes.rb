@@ -1,6 +1,16 @@
 Feedback::Application.routes.draw do
   
   resources :problem_fields
+  
+  resources :problem_types do
+    collection do
+      get :export_to_xml
+    end
+    
+    member do
+    
+    end
+  end
   resources :problem_types
 
   resources :problem_reports do

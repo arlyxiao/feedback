@@ -48,7 +48,9 @@
     $('#problem-fields').append("<li>" + field  + remove_button + "</li>");
   })
   
-  
+
+%p
+  = link_to '导出数据', '' 
 
 %ul
   - unless @problem_fields.blank?

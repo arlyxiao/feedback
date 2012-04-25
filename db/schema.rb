@@ -12,23 +12,6 @@
 
 ActiveRecord::Schema.define(:version => 20120420075837) do
 
-  create_table "answer_votes", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "answer_id"
-    t.boolean  "is_vote_up", :default => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "answers", :force => true do |t|
-    t.integer  "creator_id"
-    t.integer  "question_id"
-    t.text     "content"
-    t.integer  "vote_sum"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "comments", :force => true do |t|
     t.integer  "model_id"
     t.string   "model_type"
@@ -36,85 +19,6 @@ ActiveRecord::Schema.define(:version => 20120420075837) do
     t.text     "content"
     t.integer  "reply_comment_id"
     t.integer  "reply_comment_user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "courses", :force => true do |t|
-    t.string   "name",       :null => false
-    t.string   "cid"
-    t.string   "department"
-    t.string   "location"
-    t.integer  "teacher_id"
-    t.text     "desc"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "homework_assigns", :force => true do |t|
-    t.integer  "student_id"
-    t.integer  "homework_id"
-    t.text     "content"
-    t.boolean  "is_submit",    :default => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "submitted_at"
-    t.boolean  "has_finished", :default => false
-  end
-
-  create_table "homework_student_attachements", :force => true do |t|
-    t.integer  "creator_id"
-    t.integer  "homework_id"
-    t.string   "title"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "homework_student_upload_requirements", :force => true do |t|
-    t.integer  "creator_id"
-    t.integer  "homework_id"
-    t.string   "title"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "homework_student_uploads", :force => true do |t|
-    t.integer  "creator_id"
-    t.integer  "attachement_id"
-    t.string   "attachement_file_name"
-    t.string   "attachement_content_type"
-    t.integer  "attachement_file_size"
-    t.datetime "attachement_updated_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "homework_teacher_attachements", :force => true do |t|
-    t.integer  "creator_id"
-    t.integer  "homework_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "attachement_file_name"
-    t.string   "attachement_content_type"
-    t.integer  "attachement_file_size"
-    t.datetime "attachement_updated_at"
-  end
-
-  create_table "homeworks", :force => true do |t|
-    t.integer  "creator_id"
-    t.string   "title"
-    t.text     "content"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "course_id"
-    t.datetime "deadline"
-  end
-
-  create_table "notifications", :force => true do |t|
-    t.integer  "user_id"
-    t.string   "kind"
-    t.text     "data"
-    t.boolean  "is_read",    :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -182,35 +86,6 @@ ActiveRecord::Schema.define(:version => 20120420075837) do
     t.datetime "updated_at"
   end
 
-  create_table "questions", :force => true do |t|
-    t.integer  "creator_id"
-    t.string   "title"
-    t.text     "content"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "short_message_readings", :force => true do |t|
-    t.integer  "short_message_id"
-    t.integer  "user_id"
-    t.integer  "contact_user_id"
-    t.boolean  "is_read",          :default => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "short_messages", :force => true do |t|
-    t.integer  "sender_id"
-    t.integer  "receiver_id"
-    t.text     "content"
-    t.boolean  "sender_read",   :default => false
-    t.boolean  "receiver_read", :default => false
-    t.boolean  "sender_hide",   :default => false
-    t.boolean  "receiver_hide", :default => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "simple_captcha_data", :force => true do |t|
     t.string   "key",        :limit => 40
     t.string   "value",      :limit => 6
@@ -219,14 +94,6 @@ ActiveRecord::Schema.define(:version => 20120420075837) do
   end
 
   add_index "simple_captcha_data", ["key"], :name => "idx_key"
-
-  create_table "students", :force => true do |t|
-    t.string   "real_name",  :null => false
-    t.string   "sid"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"
@@ -239,29 +106,6 @@ ActiveRecord::Schema.define(:version => 20120420075837) do
 
   create_table "tags", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "teachers", :force => true do |t|
-    t.string   "real_name",  :null => false
-    t.string   "tid"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "team_students", :force => true do |t|
-    t.integer  "team_id"
-    t.integer  "student_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "teams", :force => true do |t|
-    t.string   "name",       :default => "", :null => false
-    t.string   "cid"
-    t.integer  "teacher_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -1,4 +1,5 @@
 class ProblemFieldsController < ApplicationController
+
   def new
     @problem_field = ProblemField.new
     @problem_fields = ProblemField.all

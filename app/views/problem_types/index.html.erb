@@ -7,12 +7,14 @@
     <th></th>
     <th></th>
     <th></th>
+    <th></th>
   </tr>
 
 <% @problem_types.each do |problem_type| %>
   <tr>
     <td><%= problem_type.creator_id %></td>
     <td><%= problem_type.name %></td>
+    <td><%= link_to '导出', "/problem_types/export_to_xml?id=#{problem_type.id}", :target => '_blank' %></td>
     <td><%= link_to 'Show', problem_type %></td>
     <td><%= link_to 'Edit', edit_problem_type_path(problem_type) %></td>
     <td><%= link_to 'Destroy', problem_type, :confirm => 'Are you sure?', :method => :delete %></td>
