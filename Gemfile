@@ -12,7 +12,6 @@ gem 'therubyracer'
 
 gem 'haml'
 
-gem 'carrierwave'
 gem 'nokogiri'
 
 # paperclip
