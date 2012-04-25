@@ -107,22 +107,36 @@ class ProblemTypesController < ApplicationController
   end
   
   def import_from_xml
-    xmlfile = params[:xmlfile]
-    if xmlfile.respond_to?(:read)
-      xml_contents = xmlfile.read
-    else xmlfile.respond_to?(:path)
-      xml_contents = File.read(xmlfile.path)
+    file_type = MIME::Types.type_for(params[:xmlfile].original_filename).first.content_type
+    unless file_type == 'application/xml'
+      flash[:notice] = '文件格式错误'
+    else
+      
+      # 读取上传的 xml 文件内容
+      xmlfile = params[:xmlfile]
+      if xmlfile.respond_to?(:read)
+        xml_contents = xmlfile.read
+      else xmlfile.respond_to?(:path)
+        xml_contents = File.read(xmlfile.path)
+      end
+      
+      # 解析 xml 文件，插入数据库
+      xml = Nokogiri::XML(xml_contents)
+      xml.xpath('//root/objects/object').each do |node|
+        if node['name'].blank? || node['problem_type_id'].blank? || node['field_type'].blank?
+          flash[:notice] = '文件格式错误'
+        else
+          ProblemField.create(
+            :name => node['name'],
+            :problem_type_id => node['problem_type_id'],
+            :field_type => node['field_type']
+          )
+        end
+        
+      end
+      
     end
-    
-    xml = Nokogiri::XML(xml_contents)
-    xml.xpath('//root/objects/object').each do |node|
-      ProblemField.create(
-        :name => node['name'],
-        :problem_type_id => node['problem_type_id'],
-        :field_type => node['field_type']
-      )
-    end
-    
+
     redirect_to :back
     
   end

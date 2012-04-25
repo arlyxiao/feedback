@@ -47,7 +47,9 @@
     var remove_button = '<a href="javascript:" class="delete">X</a>';
     $('#problem-fields').append("<li>" + field  + remove_button + "</li>");
   })
-  
+
+%p
+  = flash[:notice]
 %p
   导入配置
   %form{:action => "/problem_types/import_from_xml", :enctype => "multipart/form-data", :method => "post"}
